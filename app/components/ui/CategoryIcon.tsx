@@ -6,6 +6,6 @@ type CategoryIconProps = {
 
 export default function CategoryIcon({category} : CategoryIconProps) {
     return (
-        <div>{category.id}</div>
+        <div>{category.name}</div>
     )
 }
