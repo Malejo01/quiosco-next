@@ -21,7 +21,7 @@ async function getPendingOrders() {
 
 export default async function OrdersPage() {
     const orders = await getPendingOrders()
-    console.log(JSON.stringify(orders, null, 2))
+   /* console.log(JSON.stringify(orders, null, 2)) */
 
     return (
         <>

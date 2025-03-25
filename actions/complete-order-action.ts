@@ -29,9 +29,6 @@ export async function completeOrder(formData: FormData) {
             console.log(error)
         }
     
-    
-    
-        console.log('desde completeOrder')
     }
 
     
