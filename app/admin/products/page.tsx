@@ -1,3 +1,4 @@
+import {redirect} from 'next/navigation'
 import ProductsPagination from "@/app/components/products/ProductsPagination";
 import ProductTable from "@/app/components/products/ProductsTable";
 import Heading from "@/app/components/ui/Heading";
@@ -28,12 +29,19 @@ export default async function ProductsPage ({searchParams} : {searchParams: {pag
     const page = +searchParams.page || 1
     const pageSize = 10
 
+    if (page < 0) {
+        redirect('/admin/products')
+    }
 
     const productsData =  getProducts(page, pageSize) 
     const totalProductsData = productCount()
 
     const [products, totalProducts] = await Promise.all([productsData, totalProductsData])
+    const totalPages =Math.ceil(totalProducts / pageSize)
      
+    if (page > totalPages) {
+        redirect('/admin/products')
+    }
     return (
         <>
         <Heading>Administrar Productos</Heading>
@@ -44,6 +52,7 @@ export default async function ProductsPage ({searchParams} : {searchParams: {pag
 
         <ProductsPagination
             page ={page}
+            totalPages = {totalPages}
         />
         </>
     )
