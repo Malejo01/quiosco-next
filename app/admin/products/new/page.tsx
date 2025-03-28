@@ -1,6 +1,9 @@
 
-export default function CreateProductPage () {
+
+function newPage() {
     return (
-        <div>CreateProductPage</div>
+        <>Hola esta es la pagina de crear productos</>
     )
 }
+
+export default newPage

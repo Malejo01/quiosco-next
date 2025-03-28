@@ -3,6 +3,8 @@ import ProductsPagination from "@/app/components/products/ProductsPagination";
 import ProductTable from "@/app/components/products/ProductsTable";
 import Heading from "@/app/components/ui/Heading";
 import { prisma } from "@/src/lib/prisma";
+import Link from 'next/link';
+import ProductSearchForm from '@/app/components/products/ProductSearchForm';
 
 async function productCount() {
     return await prisma.product.count()
@@ -46,10 +48,20 @@ export default async function ProductsPage ({searchParams} : {searchParams: {pag
         <>
         <Heading>Administrar Productos</Heading>
 
+        <div className='flex flex-col lg:flex-row lg:justify-between gap-5'>
+            <Link
+                href={'products/new'}
+                className='bg-amber-400 w-full lg:w-auto text-xl px-10 py-3 text-center font-bold cursor-pointer'
+            >
+            Crear Producto</Link>
+
+            <ProductSearchForm />
+        </div>
+
         <ProductTable
         products={products}
         />
-
+ 
         <ProductsPagination
             page ={page}
             totalPages = {totalPages}
