@@ -3,15 +3,20 @@
 import { ProductSchema } from "@/src/schema";
 import ProductForm from "./ProductForm";
 import { toast } from "react-toastify";
+import { createProduct } from "@/actions/create-product-action";
+import { useRouter } from "next/navigation";
 
 
 export default function AddProductForm({children}: {children: React.ReactNode}) {
+
+    const router = useRouter()
 
     const handleSubmit = async (formData:FormData) => {
         const data = {
             name: formData.get('name'),
             price: formData.get('price'),
-            categoryId: formData.get('categoryId')
+            categoryId: formData.get('categoryId'),
+            image: formData.get('image')
         }
         const result = ProductSchema.safeParse(data)
         if(!result.success){
@@ -21,6 +26,17 @@ export default function AddProductForm({children}: {children: React.ReactNode}) 
 
             return
         }
+
+        const response = await createProduct(result.data)
+        if(response?.errors) {
+            response.errors.forEach(issue => {
+                toast.error(issue.message)
+            })
+
+            return
+        }
+        toast.success('Producto creado correctamente')
+        router.push('/admin/products')
     }
 
     return (
