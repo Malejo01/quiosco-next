@@ -8,6 +8,7 @@ import {toast} from 'react-toastify'
 import { formatCurrency } from "@/src/utils"
 import { createOrder } from "@/actions/create-order-action"
 import { OrderSchema } from "@/src/schema"
+import Link from "next/link"
 
 export default function OrderSummary () {
     const order = useStore((state) => state.order)
@@ -47,7 +48,16 @@ export default function OrderSummary () {
         <aside className="lg: h-screen lg:overflow-y-scroll md:w-64 lg:w-96 p-5">
             <h1 className="text-4xl text-center font-black">Mi pedido</h1>
 
-            {order.length === 0 ? <p className="text-center my-10">El pedido esta vacio</p> : (
+            {order.length === 0 ? (
+            <div className="grid grid-cols-1">
+                <p className="text-center my-10">El pedido esta vacio</p> 
+                <Link
+                    href={'/orders'}
+                    target='_blank'
+                    className="bg-amber-300 my-8 lg:w-auto  text-xl px-10 py-2 text-center font-bold cursor-pointer rounded border-black hover:bg-amber-500"
+                    > Ver Ordenes listas</Link>
+            </div>
+            ): (
                 <div className="mt-5">
                     {order.map(item =>(
                         <ProductDetails
