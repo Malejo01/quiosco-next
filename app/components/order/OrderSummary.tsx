@@ -2,7 +2,6 @@
 
 import { useMemo } from "react"
 import { useStore } from "@/src/store"
-import ProductCard from "../products/ProductCard"
 import ProductDetails from "./ProductDetails"
 import {toast} from 'react-toastify'
 import { formatCurrency } from "@/src/utils"

@@ -2,7 +2,6 @@
 
 import { SearchSchema } from "@/src/schema"
 import { toast } from "react-toastify"
-import { redirect, RedirectType } from "next/navigation"
 import { useRouter } from "next/navigation"
 
 function ProductSearchForm() {

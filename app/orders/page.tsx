@@ -15,6 +15,10 @@ export default function OrdersPage() {
         revalidateOnFocus: false
     })
 
+    if(error) return (
+        <h1>Hay Errores: {error}</h1>
+    )
+
     if (isLoading) return (
         <Heading>Cargando...</Heading>
     )
