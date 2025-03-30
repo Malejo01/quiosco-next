@@ -44,6 +44,7 @@ export default async function ProductsPage ({searchParams} : {searchParams: {pag
     if (page > totalPages) {
         redirect('/admin/products')
     }
+    
     return (
         <>
         <Heading>Administrar Productos</Heading>
