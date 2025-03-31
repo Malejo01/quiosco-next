@@ -6,12 +6,14 @@ export default function Logo () {
         <Link
             href={'/order/cafe'}
         >
-        <div className="flex justify-center mt-5">
-            <div className="relative w-40 h-40">
+        <div className="flex justify-center m-5">
+            <div className="">
                 <Image
-                    fill
+                    width={300}
+                    height={300}
                     alt="logotipo"
-                    src='/logo.svg'
+                    src='/logo.jpg'
+                    className="rounded-full border-4 border-solid border-black"
                 />
 
             </div>
