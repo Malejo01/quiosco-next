@@ -21,7 +21,7 @@ export default function ImageUpload({image}: {image: string | undefined}) {
                 console.log(result)
                 if(result.event === 'success') {
                     widget.close()
-                    //@ts-ignore
+                    //@ts-expect-error : Interface no definida
                     setImageUrl(result.info?.secure_url)
                 }
             }}  
