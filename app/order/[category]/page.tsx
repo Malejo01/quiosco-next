@@ -12,7 +12,7 @@ async function getProducts(category: string) {
         }
     })
 
-    return products || [];
+    return products;
 }
 
 
