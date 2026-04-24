@@ -64,12 +64,12 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
             {/* Modal Panel - Slides from left */}
             <div 
-                className={`fixed top-0 left-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out ${
+                className={`fixed top-0 left-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
                 {/* Header */}
-                <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between z-10">
+                <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
                     <h2 className="text-xl font-bold">Mi Carrito</h2>
                     <button 
                         onClick={onClose}
@@ -81,7 +81,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                 </div>
                 
                 {/* Content */}
-                <div className="overflow-y-auto h-[calc(100%-64px)] pb-32">
+                <div className="flex-1 overflow-y-auto">
                     {order.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-64 text-gray-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 mb-4 text-gray-300">
@@ -98,43 +98,43 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                     ) : (
                         <div className="p-4 space-y-4">
                             {order.map(item => (
-                                <div key={item.id} className="bg-gray-50 rounded-lg p-4 space-y-3">
-                                    <div className="flex justify-between items-start">
-                                        <div className="flex-1">
-                                            <p className="font-bold text-gray-900">{item.name}</p>
-                                            <p className="text-amber-500 font-bold text-lg">{formatCurrency(item.price)}</p>
+                                <div key={item.id} className="bg-gray-50 rounded-lg p-4">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex-1 min-w-0 pr-2">
+                                            <p className="font-bold text-gray-900 truncate">{item.name}</p>
+                                            <p className="text-amber-500 font-bold">{formatCurrency(item.price)} c/u</p>
                                         </div>
                                         <button
                                             type="button"
                                             onClick={() => removeItem(item.id)}
-                                            className="text-red-500 hover:text-red-700 transition-colors"
+                                            className="text-red-500 hover:text-red-700 transition-colors flex-shrink-0"
                                         >
-                                            <XCircleIcon className="h-7 w-7"/>
+                                            <XCircleIcon className="h-6 w-6"/>
                                         </button>
                                     </div>
                                     
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3 bg-white rounded-lg px-3 py-2 border border-gray-200">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <div className="flex items-center gap-2 bg-white rounded-lg px-2 py-1.5 border border-gray-200">
                                             <button
                                                 type="button"
                                                 onClick={() => decreaseQuantity(item.id)}
                                                 disabled={item.quantity === MIN_ITEMS}
                                                 className="disabled:opacity-30 hover:bg-gray-100 rounded p-1 transition-colors"
                                             >
-                                                <MinusIcon className="h-5 w-5"/>
+                                                <MinusIcon className="h-4 w-4"/>
                                             </button>
-                                            <span className="font-bold text-lg w-8 text-center">{item.quantity}</span>
+                                            <span className="font-bold text-base w-6 text-center">{item.quantity}</span>
                                             <button
                                                 type="button"
                                                 onClick={() => increaseQuantity(item.id)}
                                                 disabled={item.quantity === MAX_ITEMS}
                                                 className="disabled:opacity-30 hover:bg-gray-100 rounded p-1 transition-colors"
                                             >
-                                                <PlusIcon className="h-5 w-5"/>
+                                                <PlusIcon className="h-4 w-4"/>
                                             </button>
                                         </div>
-                                        <p className="font-bold text-gray-700">
-                                            {formatCurrency(item.subtotal)}
+                                        <p className="font-bold text-gray-900 text-lg">
+                                            Subtotal: {formatCurrency(item.subtotal)}
                                         </p>
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
                 {/* Footer - Fixed at bottom */}
                 {order.length > 0 && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 space-y-4">
+                    <div className="flex-shrink-0 bg-white border-t border-gray-200 p-4 space-y-3">
                         <div className="flex justify-between items-center">
                             <span className="text-lg font-semibold">Total:</span>
                             <span className="text-2xl font-bold text-amber-600">{formatCurrency(total)}</span>
