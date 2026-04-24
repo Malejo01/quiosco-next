@@ -1,13 +1,8 @@
-import {prisma} from '@/src/lib/prisma'
+import { getCategories } from '@/src/lib/db'
 import CategoryIcon from '../ui/CategoryIcon'
 import Logo from '../ui/Logo'
 
-async function getCategories() {
-    return await prisma.category.findMany()
-}
-
 export default async function OrderSideBar () {
-
     const categories = await getCategories()
 
     return (
@@ -17,7 +12,7 @@ export default async function OrderSideBar () {
                 {categories.map(category => (
                     <CategoryIcon 
                         key={category.id}
-                        category= {category}    
+                        category={category}    
                     />
                 ))}
             </nav>

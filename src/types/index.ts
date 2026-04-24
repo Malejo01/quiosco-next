@@ -1,13 +1,10 @@
-import { Order, OrderProducts, Product } from "@prisma/client";
-
+import { Product, Order, OrderProduct, OrderWithProducts as DBOrderWithProducts } from "@/src/lib/db";
 
 export type OrderItem = Pick<Product,'id'| 'name' | 'price'> & {
     quantity: number
-    subtotal:number
+    subtotal: number
 }
 
-export type OrderWithProducts = Order & {
-    orderProducts: (OrderProducts & {
-        product: Product
-    })[]
-}
+export type OrderWithProducts = DBOrderWithProducts
+
+export type { Product, Order, OrderProduct } from "@/src/lib/db"

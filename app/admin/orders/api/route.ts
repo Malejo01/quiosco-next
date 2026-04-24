@@ -1,20 +1,7 @@
-import { prisma } from "@/src/lib/prisma"
+import { getOrders } from "@/src/lib/db"
 
 export async function GET() {
-
-    const orders = await prisma.order.findMany({
-            where: {
-                status: false
-            },
-            include: {
-                orderProducts:{
-                    include:{
-                        product: true
-                    }
-                }
-            }
-        })
-
+    const orders = await getOrders(false)
     return Response.json(orders)
 }
 
