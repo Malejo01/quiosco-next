@@ -1,7 +1,14 @@
 import { neon } from "@neondatabase/serverless"
 
 // Database connection using Neon serverless driver
-const sql = neon(process.env.DATABASE_URL!)
+// Use NEON_DATABASE_URL if available, otherwise fall back to DATABASE_URL
+const connectionString = process.env.NEON_DATABASE_URL || process.env.DATABASE_URL
+
+if (!connectionString) {
+  throw new Error("Database connection string is not configured. Please set NEON_DATABASE_URL or DATABASE_URL.")
+}
+
+const sql = neon(connectionString)
 
 // Types
 export type Category = {
