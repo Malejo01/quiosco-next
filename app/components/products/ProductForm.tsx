@@ -1,17 +1,11 @@
-import { prisma } from "@/src/lib/prisma"
+import { getCategories, type Product } from "@/src/lib/db"
 import ImageUpload from "./ImageUpload"
-import { Product } from "@prisma/client"
-
-async function getCategories() {
-    return await prisma.category.findMany()
-}
 
 type ProductFormProps = {
     product?: Product
 }
 
-export default async function ProductForm({product}:ProductFormProps) {
-
+export default async function ProductForm({product}: ProductFormProps) {
     const categories = await getCategories()
 
     return (
@@ -59,10 +53,10 @@ export default async function ProductForm({product}:ProductFormProps) {
                     <option value="">-- Seleccione --</option>
                     {categories.map(category => (
                         <option
-                        key={category.id}
-                        value={category.id}
+                            key={category.id}
+                            value={category.id}
                         >
-                        {category.name}
+                            {category.name}
                         </option>
                     ))}
                 </select>
