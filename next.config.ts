@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* Quiosco Next Configuration */
   images: {
       remotePatterns: [
         {
           protocol: 'https',
           hostname:'res.cloudinary.com'
+        },
+        {
+          protocol: 'https',
+          hostname:'images.unsplash.com'
         }
       ]
   },

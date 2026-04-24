@@ -7,8 +7,8 @@ export function formatCurrency(amount:number){
 }
 
 export function getImagePath(imagePath: string) {
-    const cloudinaryBaseUrl= 'https://res.cloudinary.com'
-    if(imagePath.startsWith(cloudinaryBaseUrl)) {
+    // If it's already a full URL (http/https), return as-is
+    if(imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
         return imagePath
     } else {
         return `/products/${imagePath}.jpg`
