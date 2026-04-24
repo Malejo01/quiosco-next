@@ -64,7 +64,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
             {/* Modal Panel - Slides from left */}
             <div 
-                className={`fixed top-0 left-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
+                className={`fixed inset-y-0 left-0 w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${
                     isOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
@@ -80,8 +80,8 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                     </button>
                 </div>
                 
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto">
+                {/* Content - min-h-0 is crucial for flexbox overflow to work */}
+                <div className="flex-1 min-h-0 overflow-y-auto">
                     {order.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-64 text-gray-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 mb-4 text-gray-300">
@@ -96,7 +96,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                             </button>
                         </div>
                     ) : (
-                        <div className="p-4 space-y-4">
+                        <div className="p-4 space-y-4 pb-6">
                             {order.map(item => (
                                 <div key={item.id} className="bg-gray-50 rounded-lg p-4">
                                     <div className="flex justify-between items-start mb-3">
