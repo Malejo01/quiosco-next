@@ -61,7 +61,10 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 // Product queries
 export async function getProducts(): Promise<Product[]> {
   const products = await sql`SELECT * FROM "Product"`
-  return products as Product[]
+  return products.map((p: any) => ({
+    ...p,
+    price: Number(p.price)
+  })) as Product[]
 }
 
 export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
@@ -70,12 +73,19 @@ export async function getProductsByCategory(categorySlug: string): Promise<Produ
     JOIN "Category" c ON p."categoryId" = c.id
     WHERE c.slug = ${categorySlug}
   `
-  return products as Product[]
+  return products.map((p: any) => ({
+    ...p,
+    price: Number(p.price)
+  })) as Product[]
 }
 
 export async function getProductById(id: number): Promise<Product | null> {
   const products = await sql`SELECT * FROM "Product" WHERE id = ${id} LIMIT 1`
-  return (products[0] as Product) || null
+  if (!products[0]) return null
+  return {
+    ...products[0],
+    price: Number(products[0].price)
+  } as Product
 }
 
 // Order queries

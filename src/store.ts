@@ -1,4 +1,5 @@
 import {create} from 'zustand'
+import { persist } from 'zustand/middleware'
 import { OrderItem } from './types'
 import { Product } from '@/src/lib/db'
 
@@ -11,7 +12,9 @@ interface Store {
     clearOrder: () => void
 }
 
-export const useStore = create<Store>((set, get) => ({
+export const useStore = create<Store>()(
+  persist(
+    (set, get) => ({
     order:[],
     addToOrder: (product) => {
        
@@ -68,4 +71,9 @@ export const useStore = create<Store>((set, get) => ({
             order:[]
         }))
     }
-}))
+    }),
+    {
+      name: 'quiosco-order-storage',
+    }
+  )
+)
