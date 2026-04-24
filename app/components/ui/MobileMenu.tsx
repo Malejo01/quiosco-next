@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
 import { Category } from '@/src/lib/db'
+import { useStore } from '@/src/store'
+import CartModal from '../order/CartModal'
 
 type MobileMenuProps = {
     categories: Category[]
@@ -43,18 +45,22 @@ const categoryIcons: Record<string, React.ReactNode> = {
 }
 
 export default function MobileMenu({ categories }: MobileMenuProps) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useState(false)
     const params = useParams<{category: string}>()
     const pathname = usePathname()
+    const order = useStore((state) => state.order)
+    
+    const itemCount = order.reduce((acc, item) => acc + item.quantity, 0)
 
     // Close menu on route change
     useEffect(() => {
-        setIsOpen(false)
+        setIsMenuOpen(false)
     }, [pathname])
 
     // Prevent body scroll when menu is open
     useEffect(() => {
-        if (isOpen) {
+        if (isMenuOpen) {
             document.body.style.overflow = 'hidden'
         } else {
             document.body.style.overflow = 'unset'
@@ -62,22 +68,18 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
         return () => {
             document.body.style.overflow = 'unset'
         }
-    }, [isOpen])
+    }, [isMenuOpen])
 
     return (
         <>
             {/* Mobile Header */}
             <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-                <Link href="/order/cafe" className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-amber-600">Quiosco</span>
-                </Link>
-                
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                    aria-label={isOpen ? 'Cerrar menu' : 'Abrir menu'}
+                    aria-label={isMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
                 >
-                    {isOpen ? (
+                    {isMenuOpen ? (
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -87,13 +89,36 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
                         </svg>
                     )}
                 </button>
+
+                <Link href="/order/cafe" className="flex items-center gap-2">
+                    <span className="text-xl font-bold text-amber-600">Quiosco</span>
+                </Link>
+                
+                {/* Cart Button */}
+                <button
+                    onClick={() => setIsCartOpen(true)}
+                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
+                    aria-label="Ver carrito"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.77 2.35-1.853l1.287-5.367A1.125 1.125 0 0 0 18.513 6H4.414l-.001.001M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+                    {itemCount > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                            {itemCount > 9 ? '9+' : itemCount}
+                        </span>
+                    )}
+                </button>
             </div>
 
+            {/* Cart Modal */}
+            <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
             {/* Overlay */}
-            {isOpen && (
+            {isMenuOpen && (
                 <div 
                     className="md:hidden fixed inset-0 bg-black/50 z-40 pt-14"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => setIsMenuOpen(false)}
                 />
             )}
 
@@ -101,7 +126,7 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
             <div className={`
                 md:hidden fixed top-14 left-0 right-0 bottom-0 z-50 bg-white
                 transform transition-transform duration-300 ease-in-out overflow-y-auto
-                ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+                ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
                 <nav className="p-4">
                     <p className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">Categorias</p>

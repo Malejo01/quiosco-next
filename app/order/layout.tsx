@@ -10,14 +10,12 @@ export default function RootLayout({ children }: { children: React.ReactNode })
                 <OrderSideBar/>
                 
                 {/* Main content - add top padding on mobile for fixed header */}
-                <main className="flex-1 pt-16 md:pt-0 md:h-screen md:overflow-y-scroll p-4 md:p-5 order-2 md:order-none">
+                <main className="flex-1 pt-16 md:pt-0 md:h-screen md:overflow-y-scroll p-4 md:p-5">
                     {children}
                 </main>
                 
-                {/* Order Summary - Full width on mobile, sidebar on desktop */}
-                <div className="order-3 md:order-none">
-                    <OrderSummary/>
-                </div>
+                {/* Order Summary - Only visible on desktop */}
+                <OrderSummary/>
             </div>
             <ToastNotification/>
         </>
