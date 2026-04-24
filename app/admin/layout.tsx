@@ -1,7 +1,5 @@
-
 import AdminSidebar from "../components/admin/AdminSidebar";
 import ToastNotification from "../components/ui/ToastNotification";
-
 
 export default async function AdminLayout({
     children,
@@ -10,12 +8,12 @@ export default async function AdminLayout({
 }>) {
     return (
         <>
-            <div className="md:flex">
-                <aside className="md:w-72 md:h-screen bg-white">
+            <div className="flex flex-col md:flex-row min-h-screen">
+                <aside className="md:w-72 md:h-screen bg-white md:sticky md:top-0">
                     <AdminSidebar/>
                 </aside>
 
-                <main className="md:flex-1 md:h-screen md:overflow-y-scroll bg-gray-100 p-5">
+                <main className="flex-1 md:h-screen md:overflow-y-scroll bg-gray-100 p-4 md:p-5">
                     {children}
                 </main>
             </div>

@@ -1,4 +1,5 @@
 import { neon } from "@neondatabase/serverless"
+import { unstable_cache } from "next/cache"
 
 // Database connection using Neon serverless driver
 // Use NEON_DATABASE_URL if available, otherwise fall back to DATABASE_URL
@@ -47,11 +48,15 @@ export type OrderWithProducts = Order & {
   orderProducts: (OrderProduct & { product: Product })[]
 }
 
-// Category queries
-export async function getCategories(): Promise<Category[]> {
-  const categories = await sql`SELECT * FROM "Category" ORDER BY id`
-  return categories as Category[]
-}
+// Category queries with caching
+export const getCategories = unstable_cache(
+  async (): Promise<Category[]> => {
+    const categories = await sql`SELECT * FROM "Category" ORDER BY id`
+    return categories as Category[]
+  },
+  ['categories'],
+  { revalidate: 3600 } // Cache for 1 hour
+)
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
   const categories = await sql`SELECT * FROM "Category" WHERE slug = ${slug} LIMIT 1`
@@ -67,17 +72,21 @@ export async function getProducts(): Promise<Product[]> {
   })) as Product[]
 }
 
-export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
-  const products = await sql`
-    SELECT p.* FROM "Product" p
-    JOIN "Category" c ON p."categoryId" = c.id
-    WHERE c.slug = ${categorySlug}
-  `
-  return products.map((p: any) => ({
-    ...p,
-    price: Number(p.price)
-  })) as Product[]
-}
+export const getProductsByCategory = unstable_cache(
+  async (categorySlug: string): Promise<Product[]> => {
+    const products = await sql`
+      SELECT p.* FROM "Product" p
+      JOIN "Category" c ON p."categoryId" = c.id
+      WHERE c.slug = ${categorySlug}
+    `
+    return products.map((p: any) => ({
+      ...p,
+      price: Number(p.price)
+    })) as Product[]
+  },
+  ['products-by-category'],
+  { revalidate: 60 } // Cache for 1 minute
+)
 
 export async function getProductById(id: number): Promise<Product | null> {
   const products = await sql`SELECT * FROM "Product" WHERE id = ${id} LIMIT 1`
