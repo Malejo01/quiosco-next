@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link";
 import Logo from "../components/ui/Logo";
-import Heading from '../components/ui/Heading';
 import useSWR from 'swr';
 import { OrderWithProducts } from "@/src/types";
 import LatestOrderItem from "../components/order/LatestOrderItem";
