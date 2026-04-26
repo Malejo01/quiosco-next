@@ -74,10 +74,10 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
     return (
         <>
             {/* Mobile Header */}
-            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-3 py-3 flex items-center justify-between gap-2">
+            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-3 py-3 min-h-[72px] flex items-center justify-between gap-2 relative">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
+                    className="px-3 py-2 rounded-lg border border-black hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
                     aria-label={isMenuOpen ? 'Cerrar menu de categorias' : 'Abrir menu de categorias'}
                 >
                     Categorias
@@ -85,40 +85,41 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
 
                 <Link
                     href="/order/cafe"
-                    className="bg-amber-300 text-[11px] px-2 py-1 text-center font-bold cursor-pointer rounded hover:bg-amber-500 transition-colors flex items-center gap-1 shrink-0"
+                    className="absolute left-1/2 -translate-x-1/2"
                 >
                     <Image
                         src="/logo.jpg"
                         alt="logotipo"
-                        width={28}
-                        height={28}
-                        className="rounded-full border-2 border-solid border-black w-6 h-6 object-cover"
+                        width={44}
+                        height={44}
+                        className="rounded-full w-11 h-11 object-cover"
                     />
-                    <span className="whitespace-nowrap">El Gordo Beio</span>
                 </Link>
 
-                <Link
-                    href="/admin/orders"
-                    className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
-                >
-                    ADMIN
-                </Link>
+                <div className="flex items-center gap-2">
+                    <Link
+                        href="/admin/orders"
+                        className="px-3 py-2 rounded-lg border border-black hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
+                    >
+                        ADMIN
+                    </Link>
                 
-                {/* Cart Button */}
-                <button
-                    onClick={() => setIsCartOpen(true)}
-                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors relative"
-                    aria-label="Ver carrito"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.77 2.35-1.853l1.287-5.367A1.125 1.125 0 0 0 18.513 6H4.414l-.001.001M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                    </svg>
-                    {itemCount > 0 && (
-                        <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                            {itemCount > 9 ? '9+' : itemCount}
-                        </span>
-                    )}
-                </button>
+                    {/* Cart Button */}
+                    <button
+                        onClick={() => setIsCartOpen(true)}
+                        className="p-2 rounded-lg border border-black hover:bg-gray-100 transition-colors relative"
+                        aria-label="Ver carrito"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.77 2.35-1.853l1.287-5.367A1.125 1.125 0 0 0 18.513 6H4.414l-.001.001M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                        </svg>
+                        {itemCount > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                                {itemCount > 9 ? '9+' : itemCount}
+                            </span>
+                        )}
+                    </button>
+                </div>
             </div>
 
             {/* Cart Modal */}
@@ -127,14 +128,14 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
             {/* Overlay */}
             {isMenuOpen && (
                 <div 
-                    className="md:hidden fixed inset-0 bg-black/50 z-40 pt-14"
+                    className="md:hidden fixed inset-0 bg-black/50 z-40 pt-[72px]"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}
 
             {/* Mobile Menu Panel */}
             <div className={`
-                md:hidden fixed top-14 left-0 right-0 bottom-0 z-50 bg-white
+                md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-white
                 transform transition-transform duration-300 ease-in-out overflow-y-auto
                 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
