@@ -74,7 +74,7 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
     return (
         <>
             {/* Mobile Header */}
-            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-3 py-3 min-h-[72px] flex items-center justify-between gap-2 relative">
+            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-3 py-3 min-h-[88px] flex items-center justify-between gap-2 relative">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="px-3 py-2 rounded-lg border border-black hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
@@ -90,9 +90,9 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
                     <Image
                         src="/logo.jpg"
                         alt="logotipo"
-                        width={44}
-                        height={44}
-                        className="rounded-full w-11 h-11 object-cover"
+                        width={60}
+                        height={60}
+                        className="rounded-full w-15 h-15 object-cover"
                     />
                 </Link>
 
@@ -128,14 +128,14 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
             {/* Overlay */}
             {isMenuOpen && (
                 <div 
-                    className="md:hidden fixed inset-0 bg-black/50 z-40 pt-[72px]"
+                    className="md:hidden fixed inset-0 bg-black/50 z-40 pt-[88px]"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}
 
             {/* Mobile Menu Panel */}
             <div className={`
-                md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-50 bg-white
+                md:hidden fixed top-[88px] left-0 right-0 bottom-0 z-50 bg-white
                 transform transition-transform duration-300 ease-in-out overflow-y-auto
                 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
             `}>
