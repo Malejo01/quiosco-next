@@ -3,7 +3,7 @@
 import { useMemo } from "react"
 import { useStore } from "@/src/store"
 import { formatCurrency } from "@/src/utils"
-import { XCircleIcon, MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { XCircleIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline"
 import { toast } from 'react-toastify'
 import { createOrder } from "@/actions/create-order-action"
 import { OrderSchema } from "@/src/schema"
@@ -73,10 +73,10 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
                     <h2 className="text-xl font-bold">Mi Carrito</h2>
                     <button 
                         onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                        aria-label="Cerrar carrito"
+                        className="py-2 px-3 rounded-lg uppercase text-white bg-amber-500 text-xs sm:text-sm text-center cursor-pointer font-bold hover:bg-amber-600 transition-colors"
+                        aria-label="Seguir comprando"
                     >
-                        <XMarkIcon className="w-6 h-6" />
+                        Seguir comprando
                     </button>
                 </div>
                 

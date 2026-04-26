@@ -73,25 +73,27 @@ export default function MobileMenu({ categories }: MobileMenuProps) {
     return (
         <>
             {/* Mobile Header */}
-            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+            <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-3 py-3 flex items-center justify-between gap-2">
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                    aria-label={isMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
+                    className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
+                    aria-label={isMenuOpen ? 'Cerrar menu de categorias' : 'Abrir menu de categorias'}
                 >
-                    {isMenuOpen ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
-                    )}
+                    Categorias
                 </button>
 
-                <Link href="/order/cafe" className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-amber-600">Quiosco</span>
+                <Link href="/order/cafe" className="flex items-center gap-1 min-w-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-amber-600 shrink-0" aria-hidden="true">
+                        <path d="M8.5 3.5c.85 0 1.5.66 1.5 1.5 0 .63-.37 1.17-.9 1.4l.15 1.73a5.48 5.48 0 0 1 2.5 0l.15-1.73A1.52 1.52 0 0 1 11 5c0-.84.66-1.5 1.5-1.5S14 4.16 14 5c0 .57-.31 1.06-.78 1.32l.17 1.9a5.51 5.51 0 0 1 2.87 4.84c0 3.06-2.48 5.54-5.54 5.54S5.2 16.12 5.2 13.06a5.51 5.51 0 0 1 2.87-4.84l.17-1.9A1.5 1.5 0 0 1 7 5c0-.84.66-1.5 1.5-1.5Zm-1.84 9.56a4.06 4.06 0 1 0 8.12 0 4.06 4.06 0 0 0-8.12 0Z" />
+                    </svg>
+                    <span className="text-sm font-bold text-amber-700 whitespace-nowrap">El Gordo Beio</span>
+                </Link>
+
+                <Link
+                    href="/admin/orders"
+                    className="px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-semibold text-gray-800"
+                >
+                    ADMIN
                 </Link>
                 
                 {/* Cart Button */}
