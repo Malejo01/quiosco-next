@@ -48,6 +48,31 @@ export type OrderWithProducts = Order & {
   orderProducts: (OrderProduct & { product: Product })[]
 }
 
+// Raw database row types for mapping
+type ProductRow = {
+  id: number
+  name: string
+  price: string | number
+  image: string
+  categoryId: number
+}
+
+type ProductWithCategoryRow = ProductRow & {
+  categoryName: string
+  categorySlug: string
+}
+
+type OrderProductRow = {
+  id: number
+  orderId: number
+  productId: number
+  quantity: number
+  name: string
+  price: string | number
+  image: string
+  categoryId: number
+}
+
 // Category queries with caching
 export const getCategories = unstable_cache(
   async (): Promise<Category[]> => {
@@ -65,11 +90,11 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 
 // Product queries
 export async function getProducts(): Promise<Product[]> {
-  const products = await sql`SELECT * FROM "Product"`
-  return products.map((p: any) => ({
+  const products = await sql`SELECT * FROM "Product"` as ProductRow[]
+  return products.map((p) => ({
     ...p,
     price: Number(p.price)
-  })) as Product[]
+  }))
 }
 
 export const getProductsByCategory = unstable_cache(
@@ -78,11 +103,11 @@ export const getProductsByCategory = unstable_cache(
       SELECT p.* FROM "Product" p
       JOIN "Category" c ON p."categoryId" = c.id
       WHERE c.slug = ${categorySlug}
-    `
-    return products.map((p: any) => ({
+    ` as ProductRow[]
+    return products.map((p) => ({
       ...p,
       price: Number(p.price)
-    })) as Product[]
+    }))
   },
   ['products-by-category'],
   { revalidate: 60 } // Cache for 1 minute
@@ -140,11 +165,11 @@ export async function getOrders(status?: boolean): Promise<OrderWithProducts[]> 
       FROM "OrderProducts" op
       JOIN "Product" p ON op."productId" = p.id
       WHERE op."orderId" = ${order.id}
-    `
+    ` as OrderProductRow[]
     
     ordersWithProducts.push({
       ...order,
-      orderProducts: orderProducts.map((op: any) => ({
+      orderProducts: orderProducts.map((op) => ({
         id: op.id,
         orderId: op.orderId,
         productId: op.productId,
@@ -152,7 +177,7 @@ export async function getOrders(status?: boolean): Promise<OrderWithProducts[]> 
         product: {
           id: op.productId,
           name: op.name,
-          price: op.price,
+          price: Number(op.price),
           image: op.image,
           categoryId: op.categoryId
         }
@@ -189,11 +214,11 @@ export async function getCompletedOrders(limit: number = 10): Promise<OrderWithP
       FROM "OrderProducts" op
       JOIN "Product" p ON op."productId" = p.id
       WHERE op."orderId" = ${order.id}
-    `
+    ` as OrderProductRow[]
     
     ordersWithProducts.push({
       ...order,
-      orderProducts: orderProducts.map((op: any) => ({
+      orderProducts: orderProducts.map((op) => ({
         id: op.id,
         orderId: op.orderId,
         productId: op.productId,
@@ -201,7 +226,7 @@ export async function getCompletedOrders(limit: number = 10): Promise<OrderWithP
         product: {
           id: op.productId,
           name: op.name,
-          price: op.price,
+          price: Number(op.price),
           image: op.image,
           categoryId: op.categoryId
         }
@@ -221,8 +246,8 @@ export async function getProductsWithCategory(): Promise<ProductWithCategory[]> 
     FROM "Product" p
     JOIN "Category" c ON p."categoryId" = c.id
     ORDER BY p.id
-  `
-  return products.map((p: any) => ({
+  ` as ProductWithCategoryRow[]
+  return products.map((p) => ({
     id: p.id,
     name: p.name,
     price: Number(p.price),
@@ -244,8 +269,8 @@ export async function getProductsPaginated(page: number, pageSize: number): Prom
     JOIN "Category" c ON p."categoryId" = c.id
     ORDER BY p.id
     LIMIT ${pageSize} OFFSET ${offset}
-  `
-  return products.map((p: any) => ({
+  ` as ProductWithCategoryRow[]
+  return products.map((p) => ({
     id: p.id,
     name: p.name,
     price: Number(p.price),
@@ -271,8 +296,8 @@ export async function searchProducts(searchTerm: string): Promise<ProductWithCat
     JOIN "Category" c ON p."categoryId" = c.id
     WHERE p.name ILIKE ${'%' + searchTerm + '%'}
     ORDER BY p.id
-  `
-  return products.map((p: any) => ({
+  ` as ProductWithCategoryRow[]
+  return products.map((p) => ({
     id: p.id,
     name: p.name,
     price: Number(p.price),

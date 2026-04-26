@@ -1,4 +1,4 @@
-import { Product, Order, OrderProduct, OrderWithProducts as DBOrderWithProducts } from "@/src/lib/db";
+import { Product, OrderWithProducts as DBOrderWithProducts } from "@/src/lib/db";
 
 export type OrderItem = Pick<Product,'id'| 'name' | 'price'> & {
     quantity: number
